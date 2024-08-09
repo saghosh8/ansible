@@ -1,5 +1,5 @@
 # 1. Scenario: Checking for a File and Taking Action
-# Question: Write a Bash script to check if a file named "example.txt" exists in the current directory. 
+# Question: Write a Playbook to check if a file named "example.txt" exists in the current directory. 
 # If it exists, print "File exists." Otherwise, create the file and print "File created."
 
 
@@ -25,3 +25,16 @@
       debug:
         msg: "File created."
       when: not file_status.stat.exists
+
+
+
+# Explanation: 
+# The playbook first checks if example.txt exists.
+# If it does, it simply prints a message. If it doesn't, it creates the file and then prints a confirmation message.
+
+# Note: The last task (printing a message after file creation) is redundant,
+# as it will only run if the file didn't exist, which is already covered in the previous task. 
+# It can be safely removed without affecting the playbook's functionality.
+
+# By using the stat module and conditional logic, the playbook efficiently handles 
+# both scenarios where the file exists and where it doesn't.
