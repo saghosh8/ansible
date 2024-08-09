@@ -1,0 +1,22 @@
+# Scenario: Processing a List of Files
+# Question: Write a Bash script to iterate over all ".log" files in the current directory and print the number of lines in each file.
+
+---
+- name: Iterate over .log files and print the number of lines
+  hosts: localhost
+  tasks:
+    - name: Find all .log files in the current directory
+      find:
+        paths: "./"
+        patterns: "*.log"
+      register: log_files
+
+    - name: Print the number of lines in each .log file
+      command: "wc -l {{ item.path }}"
+      with_items: "{{ log_files.files }}"
+      register: line_counts
+
+    - name: Display the line count
+      debug:
+        msg: "{{ item.stdout }}"
+      with_items: "{{ line_counts.results }}"
