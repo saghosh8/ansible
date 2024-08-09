@@ -1,0 +1,27 @@
+# 1. Scenario: Checking for a File and Taking Action
+# Question: Write a Bash script to check if a file named "example.txt" exists in the current directory. 
+# If it exists, print "File exists." Otherwise, create the file and print "File created."
+
+
+---
+- name: Check for a file and take action
+  hosts: localhost
+  tasks:
+    - name: Check if example.txt exists
+      stat:
+        path: "./example.txt"
+      register: file_status
+
+    - name: Print message if file exists
+      debug:
+        msg: "File exists."
+      when: file_status.stat.exists
+
+    - name: Create file and print message if file does not exist
+      command: touch ./example.txt
+      when: not file_status.stat.exists
+
+    - name: Print message after file creation
+      debug:
+        msg: "File created."
+      when: not file_status.stat.exists
